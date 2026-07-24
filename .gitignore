@@ -1,0 +1,8 @@
+
+.build/
+DerivedData/
+xcuserdata/
+.DS_Store
+
+# Private local OCR fixtures
+PrivateFixtures/
