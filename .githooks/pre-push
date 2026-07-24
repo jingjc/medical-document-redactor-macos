@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -eu
+
+repository_root="$(git rev-parse --show-toplevel)"
+module_cache="$repository_root/.build/privacy-guard-module-cache"
+mkdir -p "$module_cache"
+export SWIFT_MODULECACHE_PATH="$module_cache"
+export CLANG_MODULE_CACHE_PATH="$module_cache"
+
+exec /usr/bin/xcrun swift "$repository_root/Scripts/privacy_guard.swift" --pre-push "$@"

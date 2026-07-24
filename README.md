@@ -48,9 +48,38 @@ Automatic redaction is not infallible. Users must inspect every exported page be
 
 - Real personal, medical, financial, or identity data must never be committed
 - Test fixtures must be synthetic or fully redacted
-- `PrivateFixtures/` is ignored and must remain local
+- Real fixtures must stay outside the repository
+- `Docs/` is ignored and reserved for reviewed local-only documents
 - Debug-only OCR regression checks use synthetic samples
 - Real documents must not be posted in issues, pull requests, screenshots, or vulnerability reports
+
+The local-only `Docs/` directory is visible in Xcode as a folder reference, but it has no target membership and is not copied into the app bundle.
+
+## Development Privacy Guard
+
+Before creating a commit in a new checkout, activate the repository-managed Git hooks:
+
+```bash
+Scripts/install_privacy_hooks.sh
+```
+
+The pre-commit hook scans the exact staged snapshot. The pre-push hook scans every new commit, including intermediate commits whose sensitive content was later deleted. The guard blocks:
+
+- Structurally plausible Chinese identity numbers
+- Non-placeholder email addresses and non-approved commit email metadata
+- Absolute personal home-directory paths
+- Files below `Docs/` or known in-repository private-fixture roots, even if force-added
+- Known private-regression path markers
+- OCR-source logging calls and logging calls that reference sensitive text variables
+- Binary documents or images with identifying metadata, unreadable metadata, or no reviewed SHA-256 allowlist entry
+
+The scanner reports only the rule and repository-relative file path. It does not print matched content. Do not bypass the hooks with `--no-verify`.
+
+Run a manual full-worktree check at any time:
+
+```bash
+/usr/bin/xcrun swift Scripts/privacy_guard.swift --worktree
+```
 
 ## Build
 

@@ -1,0 +1,6 @@
+# Binary files are blocked unless their exact SHA-256 and repository-relative path
+# appear below. Add an entry only after confirming that the file is synthetic or
+# fully redacted and that identifying metadata has been removed.
+#
+# Format:
+# sha256  path/to/reviewed-file

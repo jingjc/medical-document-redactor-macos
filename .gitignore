@@ -4,5 +4,5 @@ DerivedData/
 xcuserdata/
 .DS_Store
 
-# Private local OCR fixtures
-PrivateFixtures/
+# Local-only reviewed documents
+Docs/
